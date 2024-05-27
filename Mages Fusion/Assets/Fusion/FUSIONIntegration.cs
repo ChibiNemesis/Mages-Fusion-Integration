@@ -8,16 +8,23 @@ using MAGES.Networking;
 using MAGES.SceneGraph;
 using MAGES.Utilities;
 using Fusion;
+using MAGES;
 
 public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 {
     private bool isConnectedToServer;
-    //private List<RoomInfo> allRoomsInfo;
+    private List<SessionInfo> allRoomsInfo;
     private MAGESNetworking networking;
-    //private PunMessageHandler networkMessageHandler;
+    private FusionMessageHandler networkMessageHandler;
     private short? returnCode = null;
 
-    public void AddQuestionSyncScript(GameObject questionPrefab)
+    public FusionMessageHandler NetworkMessageHandler
+    {
+        get => networkMessageHandler;
+        set => networkMessageHandler = value;
+    }
+
+public void AddQuestionSyncScript(GameObject questionPrefab)
     {
         throw new System.NotImplementedException();
     }
@@ -29,12 +36,22 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public bool CreateRoom(string roomName)
     {
-        throw new System.NotImplementedException();
+        Runner.StartGame(new StartGameArgs()
+        {
+            SessionName = roomName,
+            PlayerCount = 20,
+            IsOpen = true,
+            IsVisible = true,
+        }
+        );
+
+        return true;
     }
 
     public bool DestroyComponent(GameObject gameObject, string componentType)
     {
         throw new System.NotImplementedException();
+
     }
 
     public bool DestroyObject(GameObject gameObject)
@@ -44,7 +61,9 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public void Disconnect()
     {
-        throw new System.NotImplementedException();
+        isConnectedToServer = false;
+        returnCode = null;
+        //Runner.Disconnect();
     }
 
     public bool EstablishConnectionToMainServer(string args)
@@ -54,27 +73,67 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public List<string> GetAvailableRooms()
     {
-        throw new System.NotImplementedException();
+        if (!IsConnectedToServer())
+        {
+            return null;
+        }
+
+        return (from room in allRoomsInfo where room != null select room.Name).ToList();
     }
 
     public int GetConnectedUsersToCurrentRoom()
     {
-        throw new System.NotImplementedException();
+        if(Runner.SessionInfo != null)
+        {
+            return Runner.SessionInfo.PlayerCount;
+        }
+
+        return -1;
     }
 
     public int GetConnectedUsersToRoom(string roomID)
     {
-        throw new System.NotImplementedException();
+        SessionInfo roomInfo = null;
+        foreach (var room in allRoomsInfo)
+        {
+            if (roomID == room.Name)
+            {
+                roomInfo = room;
+            }
+        }
+
+        if (roomInfo != null)
+        {
+            return roomInfo.PlayerCount;
+        }
+
+        return -1;
     }
 
     public string GetCurrentConnectedRoom()
     {
-        throw new System.NotImplementedException();
+        if(Runner.SessionInfo != null)
+        {
+            return Runner.SessionInfo.Name;
+        }
+
+        return null;
     }
 
     public int GetNetworkID(GameObject networkObject)
     {
-        throw new System.NotImplementedException();
+        if (networkObject == null)
+        {
+            return -1;
+        }
+
+        var view = networkObject.GetComponent<NetworkObject>();
+        if (view == null)
+        {
+            return -1;
+        }
+
+        return (int)view.Id.Raw;
     }
 
     public int GetPing()
@@ -89,7 +148,12 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public bool HasAuthority(GameObject networkObject)
     {
-        throw new System.NotImplementedException();
+        var newtrowkView = networkObject.GetComponent<NetworkObject>();
+        {
+            Debug.LogError("Has authority called for object " + gameObject.name + " which is not a network object.");
+        }
+
+        return newtrowkView.HasStateAuthority;
     }
 
     public void InitSpawnedObjectForNetwork(GameObject gameObject, bool syncTransform)
@@ -104,6 +168,7 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public bool JoinRoom(string roomName)
     {
+        Runner.JoinSessionLobby(new SessionLobby(), roomName); //hmm
         throw new System.NotImplementedException();
     }
 
@@ -114,7 +179,8 @@ public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration
 
     public void OnStartup()
     {
-        throw new System.NotImplementedException();
+        Hub.Instance.Get<NetworkingModule>().NetworkIdType = typeof(NetworkObject); //Fusion
+        networking = Hub.Instance.Get<MAGESNetworking>();
     }
 
     public void RequestAuthority(GameObject networkObject)
