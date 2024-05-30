@@ -18,6 +18,11 @@ public class FusionMessageHandler : MonoBehaviour
         Runner = runner;
     }
 
+    public void RequestStateChange(byte code, string actionID)
+    {
+        
+    }
+
     [Rpc]
     public void StateChangeFromClient(byte code, string actionID)
     {
@@ -33,21 +38,13 @@ public class FusionMessageHandler : MonoBehaviour
         }
     }
 
-    [Rpc]
+    // RpcSources.All: anyone can call this RPC
+    // RpcTargets.All: send this to everyone
+    [Rpc(RpcSources.All, RpcTargets.All)]
     public void DestroyComponent(int viewID, string componentType)
     {
-        
-    }
-
-    public bool DestroyComponent(NetworkObject objectPhotonView, string componentType)
-    {
-        if (objectPhotonView != null)
-        {
-            photonView.RPC("DestroyComponent", RpcTarget.All, objectPhotonView.ViewID, componentType);
-            return true;
-        }
-
-        return false;
+        NetworkObject obj;
+        //Runner.Despawn();
     }
 
     // Start is called before the first frame update
