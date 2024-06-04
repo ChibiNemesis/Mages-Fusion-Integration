@@ -61,13 +61,42 @@ namespace MAGES.Networking
 
         public bool DestroyComponent(GameObject gameObject, string componentType)
         {
-            throw new System.NotImplementedException();
+            NetworkObject NetObject = gameObject.GetComponent<NetworkObject>();
+            if (NetObject)
+            {
+                networkMessageHandler.DestroyComponent(NetObject, componentType);
+
+                return true;
+            }
+            return false;
 
         }
 
         public bool DestroyObject(GameObject gameObject)
         {
-            throw new System.NotImplementedException();
+            NetworkObject NetObject = gameObject.GetComponent<NetworkObject>();
+
+            if (!NetObject)
+            {
+                Debug.LogError("The object you are trying to destroy is null.");
+                return false;
+            }
+            if(NetObject!= null && NetObject.HasStateAuthority)
+            {
+                Runner.Despawn(NetObject);
+            }
+            else if(NetObject != null)
+            {
+                //This may not be needed unless the object does not have state authority
+                Debug.Log("add callback or do like with transfer ownership...");
+            }
+            else
+            {
+                Debug.LogError("The object you are trying to network-destroy is not a network object.");
+                return false;
+            }
+
+            return false;
         }
 
         public void Disconnect()
@@ -164,7 +193,7 @@ namespace MAGES.Networking
                 Debug.LogError("Has authority called for object " + gameObject.name + " which is not a network object.");
             }
 
-            return newtrowkView.HasStateAuthority;
+            return newtrowkView.HasStateAuthority; //equivalent to isMine from PUN
         }
 
         public void InitSpawnedObjectForNetwork(GameObject gameObject, bool syncTransform)
@@ -207,14 +236,16 @@ namespace MAGES.Networking
             throw new System.NotImplementedException();
         }
 
-        public void OnConnectedToServer(NetworkRunner runner)
+        public void OnConnectedToServer(NetworkRunner runner) //OnConnectedToMaster(PUN)
         {
-            throw new NotImplementedException();
+            isConnectedToServer = true;
         }
 
         public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
         {
-            throw new NotImplementedException();
+            Debug.LogError("Connection to Remote Address: " + remoteAddress.ToString()+" failed"
+                            +"Reason: "+reason.ToString()
+                );
         }
 
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
@@ -259,12 +290,12 @@ namespace MAGES.Networking
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
-            throw new NotImplementedException();
+            Debug.Log("Player: " + player.PlayerId + " has joined");
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
-            throw new NotImplementedException();
+            Debug.Log("Player: " + player.PlayerId + " has left");
         }
 
         public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
@@ -313,7 +344,7 @@ namespace MAGES.Networking
             var networkComponent = networkObject.GetComponent<NetworkObject>();
             if (networkComponent != null)
             {
-                //networkComponent.TransferOwnership(PhotonNetwork.LocalPlayer.ActorNumber);
+                networkComponent.RequestStateAuthority();
             }
             else
             {
@@ -338,7 +369,15 @@ namespace MAGES.Networking
 
         public GameObject SpawnObject(GameObject prefab, bool isUnique = true)
         {
-            throw new System.NotImplementedException();
+            if (prefab == null)
+            {
+                Debug.LogError("Network spawn called with null prefab.");
+                return null;
+            }
+
+            GameObject spawnedObject = Instantiate(prefab);// TBC
+
+            return spawnedObject;
         }
 
         public short? ValidateClientNetworkingSetup()

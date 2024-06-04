@@ -20,14 +20,4 @@ public class SyncTransformFusion : SyncTransform
             return;
         }
     }
-
-    private struct TransformSendData
-    {
-        public TransformFlags Flags;
-
-        public int ID;
-        public Vector3 Pos;
-
-        public Quaternion Rot;
-    }
 }

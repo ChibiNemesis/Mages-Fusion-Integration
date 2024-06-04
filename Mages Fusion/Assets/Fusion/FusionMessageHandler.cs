@@ -1,61 +1,110 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using MAGES;
-using MAGES.Interaction.Interactables;
-using MAGES.Interaction.Interactors;
-using MAGES.SceneGraph;
-using Fusion;
-
-[RequireComponent(typeof(NetworkObject))]
-public class FusionMessageHandler : MonoBehaviour
+namespace MAGES.Networking
 {
-    private NetworkObject NetObject;
-    private NetworkRunner Runner;
 
-    public void SetRunner(NetworkRunner runner)
-    {
-        Runner = runner;
-    }
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using MAGES;
+    using MAGES.Interaction.Interactables;
+    using MAGES.Interaction.Interactors;
+    using MAGES.SceneGraph;
+    using Fusion;
 
-    public void RequestStateChange(byte code, string actionID)
+    [RequireComponent(typeof(NetworkObject))]
+    public class FusionMessageHandler : MonoBehaviour
     {
-        
-    }
+        private NetworkObject NetObject;
+        private NetworkRunner Runner;
 
-    [Rpc]
-    public void StateChangeFromClient(byte code, string actionID)
-    {
-        var baseActionData = Hub.Instance.Get<MAGESSceneGraph>().Runner.RuntimeGraph.Find(actionID);
-        switch (code)
+        public void SetRunner(NetworkRunner runner)
         {
-            case 0:
-                Hub.Instance.Get<MAGESSceneGraph>().Runner.PerformAction(baseActionData);
-                break;
-            case 1:
-                Hub.Instance.Get<MAGESSceneGraph>().Runner.UndoAction(baseActionData);
-                break;
+            Runner = runner;
         }
-    }
 
-    // RpcSources.All: anyone can call this RPC
-    // RpcTargets.All: send this to everyone
-    [Rpc(RpcSources.All, RpcTargets.All)]
-    public void DestroyComponent(int viewID, string componentType)
-    {
-        NetworkObject obj;
-        //Runner.Despawn();
-    }
+        public void RequestStateChange(byte code, string actionID)
+        {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        [Rpc]
+        public void StateChangeFromClient(byte code, string actionID)
+        {
+            var baseActionData = Hub.Instance.Get<MAGESSceneGraph>().Runner.RuntimeGraph.Find(actionID);
+            switch (code)
+            {
+                case 0:
+                    Hub.Instance.Get<MAGESSceneGraph>().Runner.PerformAction(baseActionData);
+                    break;
+                case 1:
+                    Hub.Instance.Get<MAGESSceneGraph>().Runner.UndoAction(baseActionData);
+                    break;
+            }
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.All)]
+        public void DestroyComponent(NetworkObject _NetObj, string componentType)
+        {
+            var NetObjectComponent = _NetObj.gameObject.GetComponent(componentType);
+            Destroy(NetObjectComponent);
+        }
+
+        public void ActivatedGrabbable(ActivateEnterInteractionEventArgs eventArgs)
+        {
+            var grabbableObject = (Grabbable)eventArgs.Interactable;
+            if (grabbableObject != null)
+            {
+                var NetObject = grabbableObject.GetComponent<NetworkObject>();
+                RegisterActivation(NetObject.Id, true);
+            }
+        }
+
+        public void DeActivateGrabbable(ActivateExitInteractionEventArgs eventArgs)
+        {
+            var grabbableObject = (Grabbable)eventArgs.Interactable;
+            if (grabbableObject != null)
+            {
+                var NetObject = grabbableObject.GetComponent<NetworkObject>();
+                RegisterActivation(NetObject.Id, false);
+            }
+        }
+
+        [Rpc(RpcSources.All, RpcTargets.All)]
+        public void RegisterActivation(NetworkId ID, bool activated)
+        {
+            NetworkObject NetObject;
+
+            if(!Runner.TryFindObject(ID, out NetObject))
+            {
+                Debug.LogError("Could not register activation for viewID " + ID + ". ViewID not found.");
+            }
+            else
+            {
+                var activateObject = NetObject.gameObject;
+                Hub.Instance.Get<NetworkingModule>().RegisterActivatedObject(activateObject, activated);
+            }
+        }
+
+        public void AddActivationListeners(HandInteractor handInteractor)
+        {
+            handInteractor.ActivateEntered.AddListener(ActivatedGrabbable);
+            handInteractor.ActivateExited.AddListener(DeActivateGrabbable);
+        }
+
+        void Start()
+        {
+            NetObject = gameObject.GetComponent<NetworkObject>();
+
+            var integration = (FUSIONIntegration)Hub.Instance.Get<NetworkingModule>().Integration;
+            integration.NetworkMessageHandler = this;
+            var interactionSystem = Hub.Instance.Get<InteractionSystemModule>();
+            AddActivationListeners(interactionSystem.LeftHand.GetComponent<HandInteractor>());
+            AddActivationListeners(interactionSystem.RightHand.GetComponent<HandInteractor>());
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }
