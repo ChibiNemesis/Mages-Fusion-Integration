@@ -1,3 +1,5 @@
+#if FUSION2
+
 namespace MAGES.Networking
 {
 
@@ -93,18 +95,13 @@ namespace MAGES.Networking
         void Start()
         {
             NetObject = gameObject.GetComponent<NetworkObject>();
-
             var integration = (FUSIONIntegration)Hub.Instance.Get<NetworkingModule>().Integration;
             integration.NetworkMessageHandler = this;
             var interactionSystem = Hub.Instance.Get<InteractionSystemModule>();
             AddActivationListeners(interactionSystem.LeftHand.GetComponent<HandInteractor>());
             AddActivationListeners(interactionSystem.RightHand.GetComponent<HandInteractor>());
         }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
+
+#endif

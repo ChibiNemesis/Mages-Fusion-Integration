@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using ExitGames.Client.Photon;
-using System.Linq;
-using MAGES.Interaction.Interactables;
-using MAGES.Networking;
-using MAGES.SceneGraph;
-using MAGES.Utilities;
-using Fusion;
-using MAGES;
-using Fusion.Sockets;
-using System;
+#if FUSION2
 
 namespace MAGES.Networking
 {
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using ExitGames.Client.Photon;
+    using System.Linq;
+    using MAGES.Interaction.Interactables;
+    using MAGES.Networking;
+    using MAGES.SceneGraph;
+    using MAGES.Utilities;
+    using Fusion;
+    using MAGES;
+    using Fusion.Sockets;
+    using System;
+
     public class FUSIONIntegration : SimulationBehaviour, IMAGESNetworkIntegration, INetworkRunnerCallbacks //or NetworkBehaviour
     {
         private bool isConnectedToServer;
@@ -386,3 +388,5 @@ namespace MAGES.Networking
         }
     }
 }
+
+#endif
