@@ -58,23 +58,20 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3250110519334526662, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -7986999192495078161}
+      addedObject: {fileID: -7757961068035803582}
     - targetCorrespondingSourceObject: {fileID: 3250110519334526662, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1540940851613573}
+      addedObject: {fileID: 8124836006047958479}
     - targetCorrespondingSourceObject: {fileID: 3250110519334526662, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7130681930479921782}
-    - targetCorrespondingSourceObject: {fileID: 3250110519334526662, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4316735104537122795}
+      addedObject: {fileID: 2948730045708022072}
   m_SourcePrefab: {fileID: 100100000, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
 --- !u!1 &3654972469150009679 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3250110519334526662, guid: 64d169f664cc19d43a87f462d0343a4d, type: 3}
   m_PrefabInstance: {fileID: 2279846519986526089}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-7986999192495078161
+--- !u!114 &-7757961068035803582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -83,22 +80,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3654972469150009679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a317f47f3a8f2f46ba131f5809bc00e, type: 3}
+  m_Script: {fileID: 11500000, guid: 7beb8225a19877441b956176faae8ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configurations:
-  - configurator: MAGES.Networking.Editor.PrefabConfiguration.PhotonPrefabConfigurator,
-      MAGES.Networking.AutomaticPrefabConfiguration.Photon, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    componentsToAdd:
-    - Photon.Pun.PhotonView, PhotonUnityNetworking, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    - MAGES.Networking.MultiplayerAvatar, MAGES.Networking.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    - MAGES.Networking.SyncTransformPhoton, MAGES.Networking.Runtime, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-    componentsToRemove: []
---- !u!114 &1540940851613573
+  PlayerPrefab: {fileID: 8124836006047958479}
+  LeftHandPrefab: {fileID: 1774673481252812, guid: a3ff9d5ebf6087f409c4eb2b5b70d2b6, type: 3}
+  RightHandPrefab: {fileID: 7476564329805022691, guid: 250575898625af14393a5b4dae207ae2, type: 3}
+--- !u!114 &8124836006047958479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,20 +95,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 3654972469150009679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &7130681930479921782
+  SortKey: 3942489393
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -7757961068035803582}
+  - {fileID: 2948730045708022072}
+--- !u!114 &2948730045708022072
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,22 +114,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3654972469150009679}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590c78c90aee69c408ded9df6e719e6a, type: 3}
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4316735104537122795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3654972469150009679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f40c1603c7cabc9499194525a786ad9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementThreshold: 0.005
-  rotationThreshold: 1
-  syncTransformMode: 3
-  syncObjectsMode: 3
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0

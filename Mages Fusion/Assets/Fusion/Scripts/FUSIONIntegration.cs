@@ -105,11 +105,12 @@ namespace MAGES.Networking
         {
             isConnectedToServer = false;
             returnCode = null;
-            //Runner.Disconnect();
+            Runner.Disconnect(Runner.ActivePlayers.FirstOrDefault()); //check this later
         }
 
         public bool EstablishConnectionToMainServer(string args)
         {
+            
             throw new System.NotImplementedException();
         }
 
@@ -205,12 +206,17 @@ namespace MAGES.Networking
 
         public bool IsConnectedToServer()
         {
-            throw new System.NotImplementedException();
+            return isConnectedToServer;
         }
 
         public bool JoinRoom(string roomName)
         {
-            Runner.JoinSessionLobby(new SessionLobby(), roomName); //hmm
+            var result = Runner.StartGame(new StartGameArgs()
+            {
+                SessionName = roomName
+            }
+            );
+
             return true;
         }
 
@@ -222,37 +228,34 @@ namespace MAGES.Networking
             }
 
             var remotePview = remotePrefab.GetComponent<NetworkObject>();
-            var viewID = remotePview.Id;
-            var newPhotonView = localPrefab.GetOrAddComponent<NetworkObject>();
+            var ID = remotePview.Id;
+            var newNetObject = localPrefab.GetOrAddComponent<NetworkObject>();
             //PhotonNetwork.LocalCleanPhotonView(remotePview);
 
             remotePrefab.SetActive(false);
-            //PhotonNetwork.PrefabPool.Destroy(remotePrefab);
-
+            Runner.Despawn(remotePview);
             Destroy(remotePrefab);
-            //newPhotonView.Id = viewID;
+            //newNetObject = ID;
             localPrefab.GetOrAddComponent<SyncTransform>().Initialise();
 
             return localPrefab;
-
-            throw new System.NotImplementedException();
         }
 
-        public void OnConnectedToServer(NetworkRunner runner) //OnConnectedToMaster(PUN)
+        public void OnConnectedToServer(NetworkRunner runner)
         {
             isConnectedToServer = true;
         }
 
         public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
         {
-            Debug.LogError("Connection to Remote Address: " + remoteAddress.ToString()+" failed"
+            Debug.LogError("Connection to Remote Address: " + remoteAddress.ToString()+" failed\n"
                             +"Reason: "+reason.ToString()
                 );
         }
 
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
         {
-            throw new NotImplementedException();
+            Debug.Log("Request Received: "+request);
         }
 
         public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
@@ -262,7 +265,7 @@ namespace MAGES.Networking
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
         {
-            throw new NotImplementedException();
+            Debug.Log("User "+runner.UserId+" has Disconnected\nReason: "+reason);
         }
 
         public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
@@ -270,21 +273,25 @@ namespace MAGES.Networking
             throw new NotImplementedException();
         }
 
+        //no need to implement
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
             throw new NotImplementedException();
         }
 
+        //No need to implement
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
         {
             throw new NotImplementedException();
         }
 
+        //No need to implement
         public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
             throw new NotImplementedException();
         }
 
+        //No need to implement
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
             throw new NotImplementedException();
@@ -312,12 +319,12 @@ namespace MAGES.Networking
 
         public void OnSceneLoadDone(NetworkRunner runner)
         {
-            throw new NotImplementedException();
+            Debug.Log("Scene Loading has finished");
         }
 
         public void OnSceneLoadStart(NetworkRunner runner)
         {
-            throw new NotImplementedException();
+            Debug.Log("Scene Loading has started");
         }
 
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
@@ -327,7 +334,7 @@ namespace MAGES.Networking
 
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
         {
-            throw new NotImplementedException();
+            Debug.Log("Shutdown from user: "+runner.UserId+"\nReason "+shutdownReason);
         }
 
         public void OnStartup()

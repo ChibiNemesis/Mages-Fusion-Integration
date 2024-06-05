@@ -264,6 +264,8 @@ GameObject:
   - component: {fileID: 7793359414571560984}
   - component: {fileID: 708334508697146712}
   - component: {fileID: 8508454709827981685}
+  - component: {fileID: -2346549247348043549}
+  - component: {fileID: -3473021682581598905}
   m_Layer: 0
   m_Name: Alcohol_Bottle
   m_TagString: Untagged
@@ -383,7 +385,6 @@ MonoBehaviour:
   grabMode: 0
   grabMovementMode: 0
   grabbableColliders: []
-  useHandPoses: 1
   manualReset: 1
   resetDistance: 0.7
   reticle: {fileID: 0}
@@ -397,11 +398,9 @@ MonoBehaviour:
   angularVelocityDamping: 1
   teleportDistance: 0.5
   <HandPoses>k__BackingField:
-  - <SelectPose>k__BackingField: {fileID: 11400000, guid: 058ec0a9485ad3c47926a10d01507418,
-      type: 2}
+  - <SelectPose>k__BackingField: {fileID: 11400000, guid: 058ec0a9485ad3c47926a10d01507418, type: 2}
     <ActivatePose>k__BackingField: {fileID: 0}
-  - <SelectPose>k__BackingField: {fileID: 11400000, guid: 932735129147def4cac890713163e58a,
-      type: 2}
+  - <SelectPose>k__BackingField: {fileID: 11400000, guid: 932735129147def4cac890713163e58a, type: 2}
     <ActivatePose>k__BackingField: {fileID: 0}
   <EnableThrow>k__BackingField: 1
   <ThrowVelocityMultiplier>k__BackingField: 1.1
@@ -418,6 +417,40 @@ MonoBehaviour:
   m_Script: {fileID: -1722173812, guid: 1c1a21e1309d25de02b27da979cbb376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2346549247348043549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461789498622482572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
+--- !u!114 &-3473021682581598905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461789498622482572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2860507543
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -2346549247348043549}
 --- !u!1 &4482497669002559469
 GameObject:
   m_ObjectHideFlags: 0

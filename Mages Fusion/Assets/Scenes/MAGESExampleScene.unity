@@ -1828,7 +1828,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 313464853}
   sceneViewId: 1
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2734,7 +2735,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 583966811}
   sceneViewId: 4
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5303,7 +5305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RunnerPrefab: {fileID: 1965443368}
-  StartMode: 0
+  StartMode: 1
   AutoStartAs: 2
   AutoHideGUI: 1
   AutoClients: 1
@@ -7116,7 +7118,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 1
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 1531842544}
   sceneViewId: 2
   InstantiationId: 0
   isRuntimeInstantiated: 0
