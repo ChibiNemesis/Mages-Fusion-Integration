@@ -16,7 +16,7 @@
 
         public void RequestStateChange(byte code, string actionID)
         {
-
+            StateChangeFromClient(code, actionID);
         }
 
         [Rpc]
@@ -85,7 +85,7 @@
 
         void Start()
         {
-            Runner = GameObject.Find("Runner").GetComponent<NetworkRunner>();
+            Runner = GameObject.Find("Hub").GetComponent<NetworkRunner>();
             var integration = (FUSIONIntegration)Hub.Instance.Get<NetworkingModule>().Integration;
             integration.NetworkMessageHandler = this;
             var interactionSystem = Hub.Instance.Get<InteractionSystemModule>();

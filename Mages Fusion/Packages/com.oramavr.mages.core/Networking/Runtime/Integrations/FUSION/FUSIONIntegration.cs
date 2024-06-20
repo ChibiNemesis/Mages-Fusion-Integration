@@ -14,8 +14,9 @@
     using System;
     using System.Threading.Tasks;
 
-    public class FUSIONIntegration : SimulationBehaviour, IMAGESNetworkIntegration, INetworkRunnerCallbacks //or NetworkBehaviour
+    public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration, INetworkRunnerCallbacks //or NetworkBehaviour
     {
+        private NetworkRunner _runner;
         private bool isConnectedToServer;
         private List<SessionInfo> allRoomsInfo;
         private MAGESNetworking networking;
@@ -46,13 +47,13 @@
 
         public bool CreateRoom(string roomName)
         {
-            var result = Runner.StartGame(new StartGameArgs()
+            var result = _runner.StartGame(new StartGameArgs()
             {
                 SessionName = roomName,
                 PlayerCount = 20,
                 IsOpen = true,
                 IsVisible = true,
-                GameMode = GameMode.Shared //Shared mode is similar to PUN
+                GameMode = GameMode.Shared
             }
             );
 
@@ -83,12 +84,12 @@
             }
             if (NetObject != null && NetObject.HasStateAuthority)
             {
-                Runner.Despawn(NetObject);
+                _runner.Despawn(NetObject);
             }
             else if (NetObject != null)
             {
                 //This may not be needed unless the object does not have state authority
-                Debug.Log("add callback or do like with transfer ownership...");
+                Debug.Log("add callback or do something similar with transfer ownership...");
             }
             else
             {
@@ -96,29 +97,27 @@
                 return false;
             }
 
-            return false;
+            return true;
         }
 
         public void Disconnect()
         {
             isConnectedToServer = false;
             returnCode = null;
-            Runner.Disconnect(Runner.ActivePlayers.FirstOrDefault()); //check this later
+            _runner.Disconnect(_runner.LocalPlayer);
         }
 
         public bool EstablishConnectionToMainServer(string args)
         {
-            Debug.Log("EstablishConnectionToMainServer called!");
-            var result = EstablishConnectionToMainServerInner(args);
-            //could add some error handling here
+            var task = EstablishConnectionToMainServerInner();
 
+            //return task.Result.Ok;
             return true;
         }
 
-        private async Task<StartGameResult> EstablishConnectionToMainServerInner(string args)
+        private async Task<StartGameResult> EstablishConnectionToMainServerInner()
         {
-            var result = await Runner.JoinSessionLobby(SessionLobby.Shared);
-
+            var result = await _runner.JoinSessionLobby(SessionLobby.Shared);
             return result;
         }
 
@@ -134,9 +133,9 @@
 
         public int GetConnectedUsersToCurrentRoom()
         {
-            if (Runner.SessionInfo != null)
+            if (_runner.SessionInfo != null)
             {
-                return Runner.SessionInfo.PlayerCount;
+                return _runner.SessionInfo.PlayerCount;
             }
 
             return -1;
@@ -163,9 +162,9 @@
 
         public string GetCurrentConnectedRoom()
         {
-            if (Runner.SessionInfo != null)
+            if (_runner.SessionInfo != null)
             {
-                return Runner.SessionInfo.Name;
+                return _runner.SessionInfo.Name;
             }
 
             return null;
@@ -178,39 +177,37 @@
                 return -1;
             }
 
-            var view = networkObject.GetComponent<NetworkObject>();
-            if (view == null)
+            var NetObject = networkObject.GetComponent<NetworkObject>();
+            if (NetObject == null)
             {
                 return -1;
             }
 
-            return (int)view.Id.Raw;
+            return (int)NetObject.Id.Raw;
         }
 
         public int GetPing()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public int GetPrefabIDFromNetwork(GameObject prefab, out bool isUnique)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public bool HasAuthority(GameObject networkObject)
         {
-            var newtrowkView = networkObject.GetComponent<NetworkObject>();
+            var NetObject = networkObject.GetComponent<NetworkObject>();
             {
                 Debug.LogError("Has authority called for object " + gameObject.name + " which is not a network object.");
             }
 
-            return newtrowkView.HasStateAuthority; //equivalent to isMine from PUN
+            return NetObject.HasStateAuthority;
         }
 
         public void InitSpawnedObjectForNetwork(GameObject gameObject, bool syncTransform)
-        {
-            throw new System.NotImplementedException();
-        }
+        {}
 
         public bool IsConnectedToServer()
         {
@@ -219,7 +216,7 @@
 
         public bool JoinRoom(string roomName)
         {
-            var result = Runner.StartGame(new StartGameArgs()
+            var result = _runner.StartGame(new StartGameArgs()
             {
                 SessionName = roomName
             }
@@ -235,13 +232,14 @@
                 return null;
             }
 
-            var remotePview = remotePrefab.GetComponent<NetworkObject>();
-            var ID = remotePview.Id;
+            var NetObject = remotePrefab.GetComponent<NetworkObject>();
+            var ID = NetObject.Id;
             var newNetObject = localPrefab.GetOrAddComponent<NetworkObject>();
             //PhotonNetwork.LocalCleanPhotonView(remotePview);
 
             remotePrefab.SetActive(false);
-            Runner.Despawn(remotePview);
+            //PhotonNetwork.PrefabPool.Destroy(remotePrefab); -> use an INetworkObjectProvider
+            _runner.Despawn(NetObject);
             Destroy(remotePrefab);
             //newNetObject = ID;
             localPrefab.GetOrAddComponent<SyncTransform>().Initialise();
@@ -251,6 +249,7 @@
 
         public void OnConnectedToServer(NetworkRunner runner)
         {
+            Debug.Log("Conncted to Server Successfully");
             isConnectedToServer = true;
         }
 
@@ -267,9 +266,7 @@
         }
 
         public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
         {
@@ -278,32 +275,24 @@
 
         public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
         {
-            throw new NotImplementedException();
+            Debug.Log("Host Migration Started");
         }
 
         //no need to implement
         public void OnInput(NetworkRunner runner, NetworkInput input)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         //No need to implement
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         //No need to implement
         public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         //No need to implement
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
@@ -323,14 +312,10 @@
         }
 
         public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ReliableKey key, ArraySegment<byte> data)
-        {
-            throw new NotImplementedException();
-        }
+        {}
 
         public void OnSceneLoadDone(NetworkRunner runner)
         {
@@ -345,6 +330,8 @@
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
         {
             allRoomsInfo = sessionList;
+            Debug.Log("Lobby created");
+            Debug.Log(allRoomsInfo);
         }
 
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
@@ -356,11 +343,20 @@
         {
             Hub.Instance.Get<NetworkingModule>().NetworkIdType = typeof(NetworkObject); //Fusion
             networking = Hub.Instance.Get<MAGESNetworking>();
+
+            if (!gameObject.GetComponent<NetworkObject>())
+            {
+                gameObject.AddComponent<NetworkObject>();
+            }
+            if (_runner == null)
+            {
+                _runner = GameObject.Find("Runner").GetComponent<NetworkRunner>();
+            }
         }
 
         public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
         {
-            throw new NotImplementedException();
+            Debug.Log(message.ToString());
         }
 
         public void RequestAuthority(GameObject networkObject)
@@ -399,7 +395,26 @@
                 return null;
             }
 
-            GameObject spawnedObject = Instantiate(prefab);// TBC
+            GameObject spawnedObject = null;
+
+            if (prefab.GetComponent<NetworkObject>())
+            {
+                _runner.Spawn(prefab, 
+                    prefab.transform.position, 
+                    prefab.transform.rotation);
+            }
+            else
+            {
+                spawnedObject = Instantiate(prefab);
+
+                var NetObject = spawnedObject.AddComponent<NetworkObject>();
+                NetObject.ReleaseStateAuthority(); // give authority to other players
+            }
+
+            if (spawnedObject.GetComponent<Rigidbody>())
+            {
+                spawnedObject.GetOrAddComponent<SyncTransformFusion>();
+            }
 
             return spawnedObject;
         }
