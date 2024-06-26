@@ -29,6 +29,11 @@
             set => networkMessageHandler = value;
         }
 
+        public List<SessionInfo> GetAvailableSessions()
+        {
+            return allRoomsInfo;
+        }
+
         public void AddQuestionSyncScript(GameObject questionPrefab)
         {
             throw new System.NotImplementedException();
@@ -217,10 +222,8 @@
         public bool JoinRoom(string roomName)
         {
             var result = _runner.StartGame(new StartGameArgs()
-            {
-                SessionName = roomName
-            }
-            );
+            {SessionName = roomName});
+            //_runner.JoinSessionLobby()
 
             return true;
         }

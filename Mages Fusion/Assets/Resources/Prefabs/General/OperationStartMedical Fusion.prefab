@@ -740,8 +740,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OperationStartTriggers, MAGESUIs
+      - m_Target: {fileID: -2342767840705986197}
+        m_TargetAssemblyTypeName: MAGES.UIs.OperationStartTriggersFusion, MAGES.Networking.Runtime
         m_MethodName: SinglePlayer
         m_Mode: 1
         m_Arguments:
@@ -1179,8 +1179,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: OperationStartTriggers, MAGESUIs
+      - m_Target: {fileID: -2342767840705986197}
+        m_TargetAssemblyTypeName: MAGES.UIs.OperationStartTriggersFusion, MAGES.Networking.Runtime
         m_MethodName: Exit
         m_Mode: 1
         m_Arguments:
@@ -3389,7 +3389,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!82 &2313803198579674962
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3540,6 +3540,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <NetworkingUI>k__BackingField: {fileID: 1465634988327954177, guid: 3021d5469848c9c48929d8a225e5afe1, type: 3}
   <AvatarCustomizationUI>k__BackingField: {fileID: 6126062374091248628, guid: ceac3ce2e2eb35745bfa7298cb49236a, type: 3}
+  SinglePlayerButton: {fileID: 1361589918219014547}
+  MultiPlayerButton: {fileID: 6857403886130154914}
+  CustomizationButton: {fileID: 4460849634889054739}
+  QuitButton: {fileID: 3300044055709599555}
+  LoadingUI: {fileID: 5519894925996523445}
 --- !u!1 &8798429891023266172
 GameObject:
   m_ObjectHideFlags: 0

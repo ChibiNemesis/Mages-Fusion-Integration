@@ -749,7 +749,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 559.034, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -4.183014, y: 1.5980072}
+  m_AnchoredPosition: {x: -4.183075, y: 1.5980072}
   m_SizeDelta: {x: 2, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5464047161843467365
@@ -948,6 +948,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CreateSessionUI>k__BackingField: {fileID: 1061030109764770952, guid: 2b9460a2b52830e4da8b172e64555a62, type: 3}
   <OperationStartUI>k__BackingField: {fileID: 8287548645498771471, guid: b55cbac019e1852408338f9f10d59606, type: 3}
+  JoinButton: {fileID: 6960227575917981391}
+  SessionList: {fileID: 4688874810292597025}
+  SessionButtonPrefab: {fileID: 4305002750830243289, guid: faca0e32ac15a584ca733d224554de77, type: 3}
 --- !u!1 &1708641567336462903
 GameObject:
   m_ObjectHideFlags: 0
