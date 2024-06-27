@@ -25,6 +25,8 @@ namespace MAGES.Networking
         private GameObject messageHandlerPrefab;
         [SerializeField]
         private GameObject networkingInfoUI;
+        [SerializeField]
+        private Module module;
 
         /// <summary>
         /// Map of gameobject references to prefab paths.
@@ -287,12 +289,18 @@ namespace MAGES.Networking
         /// <inheritdoc cref="NetworkingModule.Startup"/>
         public override void Startup()
         {
+            if (module == Module.FUSION)
+            {
 #if FUSION2
-            Integration = Hub.Instance.gameObject.GetOrAddComponent<FUSIONIntegration>();
+                Integration = Hub.Instance.gameObject.GetOrAddComponent<FUSIONIntegration>();
 #endif
-//#if PHOTON_UNITY_NETWORKING
-//            Integration = Hub.Instance.gameObject.GetOrAddComponent<PUNIntegration>();
-//#endif
+            }
+            else
+            {
+#if PHOTON_UNITY_NETWORKING
+                Integration = Hub.Instance.gameObject.GetOrAddComponent<PUNIntegration>();
+#endif
+            }
             Integration?.OnStartup();
 
             var leftInteractor = Hub.Instance.Get<InteractionSystemModule>().LeftHand.GetComponent<IInteractor>();
