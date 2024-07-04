@@ -58,17 +58,29 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2774466112161451010, guid: 6fac1962220690a45a5494c4680a5058, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1774673481252812}
+      addedObject: {fileID: -1009772810741743012}
     - targetCorrespondingSourceObject: {fileID: 2774466112161451010, guid: 6fac1962220690a45a5494c4680a5058, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5317091939137722882}
+      addedObject: {fileID: -1128348954162753797}
   m_SourcePrefab: {fileID: 100100000, guid: 6fac1962220690a45a5494c4680a5058, type: 3}
 --- !u!1 &3500031255184576477 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2774466112161451010, guid: 6fac1962220690a45a5494c4680a5058, type: 3}
   m_PrefabInstance: {fileID: 1590467601072686047}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1774673481252812
+--- !u!114 &-1009772810741743012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3500031255184576477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89846bcb73b59d2479df2b71d63c566b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1128348954162753797
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,25 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3993760875
+  SortKey: 4052774169
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: -5317091939137722882}
---- !u!114 &-5317091939137722882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3500031255184576477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SyncScale: 0
-  SyncParent: 0
-  _autoAOIOverride: 1
-  DisableSharedModeInterpolation: 0
+  - {fileID: -1009772810741743012}

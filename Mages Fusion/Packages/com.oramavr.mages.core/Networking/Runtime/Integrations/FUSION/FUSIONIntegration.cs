@@ -54,7 +54,6 @@
         public IMAGESObjectSynchronization AddSyncTransform(GameObject gameObject)
         {
             throw new System.NotImplementedException();
-            //return gameObject.GetOrAddComponent<SyncTransformPhoton>();
         }
 
         public bool CreateRoom(string roomName)
@@ -307,25 +306,32 @@
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
             NetworkObject Avatar;
+            GameObject rig;
+            GameObject Camera;
             if (runner.LocalPlayer == player)
             {
                 Debug.Log("Local Player Joined!!");
-                GameObject rig;
-                GameObject Camera;
                 if (Hub.Instance.RuntimeBundle.DeviceManager.CurrentMode == DeviceManagerModule.CameraMode.Mobile3D)
                 {
                     rig = GameObject.Find("MobileRig");
                     Camera = rig.transform.Find("Camera").gameObject;
                     Avatar = runner.Spawn(CharacterAvatar, rig.transform.position,Camera.transform.rotation);
                     Avatar.transform.Find("AvatarOffset").gameObject.SetActive(false);
-                    Avatar.transform.SetParent(Camera.transform);
+                    Avatar.gameObject.name = "Local Avatar";
                     runner.SetPlayerObject(player, Avatar);
                 }
             }
-            else
+            /*else
             {
                 Debug.Log("Another player joined!!");
-            }
+                if (Hub.Instance.RuntimeBundle.DeviceManager.CurrentMode == DeviceManagerModule.CameraMode.Mobile3D)
+                {
+                    rig = GameObject.Find("MobileRig");
+                    Camera = rig.transform.Find("Camera").gameObject;
+                    Avatar = runner.Spawn(CharacterAvatar, rig.transform.position, Camera.transform.rotation);
+                    runner.SetPlayerObject(player, Avatar);
+                }
+            }*/
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -377,10 +383,8 @@
             {
                 gameObject.AddComponent<NetworkObject>();
             }
-            if (_runner == null)
-            {
-                _runner = GameObject.Find("Runner").GetComponent<NetworkRunner>();
-            }
+
+            _runner = GameObject.Find("Runner").GetComponent<NetworkRunner>();
         }
 
         public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)

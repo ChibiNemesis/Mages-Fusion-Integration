@@ -2084,6 +2084,8 @@ GameObject:
   m_Component:
   - component: {fileID: 431348111}
   - component: {fileID: 431348110}
+  - component: {fileID: 431348113}
+  - component: {fileID: 431348112}
   m_Layer: 0
   m_Name: Hub
   m_TagString: Untagged
@@ -2120,6 +2122,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &431348112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431348109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1632748567
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 431348113}
+--- !u!114 &431348113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431348109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49b39778fd42a904db73664b195a47a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterAvatar: {fileID: 3654972469150009679, guid: c715138146868d248862a2e3627b7391, type: 3}
 --- !u!1 &436061863
 GameObject:
   m_ObjectHideFlags: 0
@@ -6200,6 +6233,234 @@ PrefabInstance:
     - target: {fileID: 7572794015558561937, guid: e390be629de59f041bafc51e243a0b12, type: 3}
       propertyPath: m_Name
       value: Runner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 431348109}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 431348109}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnShutdown
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnPlayerJoined
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnConnectFailed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnConnectedToServer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSessionListUpdated
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 431348113}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDisconnectedFromServer
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MAGES.Networking.FUSIONIntegration, MAGES.Networking.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnShutdown.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: PlayerJoined.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectFailed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnConnectedToServer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnSessionListUpdate.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947110776381736917, guid: e390be629de59f041bafc51e243a0b12, type: 3}
+      propertyPath: OnDisconnectedFromServer.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 9003465539348159474, guid: e390be629de59f041bafc51e243a0b12, type: 3}
       propertyPath: m_LocalPosition.x
