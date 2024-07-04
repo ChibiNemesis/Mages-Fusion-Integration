@@ -11,12 +11,12 @@
     "EnqueueIncompleteSynchronousSpawns": false,
     "InvokeRenderInBatchMode": true,
     "NetworkIdIsObjectName": false,
-    "HideNetworkObjectInactivityGuard": false,
+    "HideNetworkObjectInactivityGuard": true,
     "Simulation": {
         "InputDataWordCount": 0,
         "ReplicationFeatures": 1,
         "InputTransferMode": 0,
-        "PlayerCount": 10,
+        "PlayerCount": 20,
         "TickRateSelection": {
             "Client": 64,
             "ServerIndex": 0,
@@ -25,7 +25,7 @@
         }
     },
     "Network": {
-        "ConnectionTimeout": 10.0,
+        "ConnectionTimeout": 200.0,
         "ConnectionShutdownTime": 1.0,
         "ReliableDataTransferModes": 3
     },
@@ -60,8 +60,7 @@
         "Fusion.Unity",
         "Assembly-CSharp",
         "Assembly-CSharp-firstpass",
-        "Fusion.Addons.Physics",
-        "Fusion.Addons.FSM"
+        "Assembly-CSharp-firstpass"
     ],
     "UseSerializableDictionary": true,
     "NullChecksForNetworkedProperties": true,
