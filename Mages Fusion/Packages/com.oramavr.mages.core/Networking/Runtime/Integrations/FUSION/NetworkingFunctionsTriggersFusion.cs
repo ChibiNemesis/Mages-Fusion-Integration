@@ -1,8 +1,5 @@
 namespace MAGES.UIs
 {
-
-    using System.Collections;
-    using System.Collections.Generic;
     using UnityEngine;
     using MAGES.Networking;
     using TMPro;
@@ -16,6 +13,8 @@ namespace MAGES.UIs
         GameObject SessionList;
         [SerializeField]
         GameObject SessionButtonPrefab;
+        [SerializeField]
+        GameObject CharacterAvatar;
 
         private FUSIONIntegration Integration;
         private GameObject PreviousSelected;
@@ -23,30 +22,42 @@ namespace MAGES.UIs
         private void Start()
         {
             Integration = GameObject.Find("Hub").GetComponent<FUSIONIntegration>();
-            AddSessions();
         }
 
-        private void AddSessions()
+        public void AddSessions()
         {
-            var AllRoomsInfo = Integration.GetAvailableSessions();
+            //Delete Previous list from ui
+            var PreviousList = SessionList.transform;
+            for(var i=0;i< PreviousList.childCount; i++)
+            {
+                Destroy(PreviousList.GetChild(i).gameObject);
+            }
 
-            if (AllRoomsInfo == null)
+            var AvailableRooms = Integration.GetAvailableSessions();
+
+            if (AvailableRooms == null)
                 return;
 
             var count = 0;
-            foreach(var session in AllRoomsInfo)
+            foreach(var session in AvailableRooms)
             {
-                var copy = Instantiate(SessionButtonPrefab);
-                copy.transform.position += new Vector3(copy.transform.position.x,
-                    copy.transform.position.y - copy.GetComponent<RectTransform>().rect.height * count,
-                    copy.transform.position.z);
-
-                copy.GetComponent<SessionButtonHandler>().Trigger = this;
-                copy.transform.Find("SessionName").GetComponent<TMP_Text>().text = session.Name;
-                copy.transform.Find("SessionPlayers").GetComponent<TMP_Text>().text = session.PlayerCount.ToString();
-                copy.transform.parent = SessionList.transform;
+                Debug.Log("Adding Session to List");
+                AddSessionButton(session.Name, session.PlayerCount, count);
                 count++;
             }
+        }
+
+        private void AddSessionButton(string SessionName, int JoinedPlayers, int count)
+        {
+            var copy = Instantiate(SessionButtonPrefab);
+            copy.transform.position = new Vector3(copy.transform.position.x,
+                copy.transform.position.y - copy.GetComponent<RectTransform>().rect.height * count,
+                copy.transform.position.z);
+
+            copy.GetComponent<SessionButtonHandler>().Trigger = this;
+            copy.transform.Find("SessionName").GetComponent<TMP_Text>().text = SessionName;
+            copy.transform.Find("SessionPlayers").GetComponent<TMP_Text>().text = JoinedPlayers.ToString();
+            copy.transform.SetParent(SessionList.transform, false);
         }
 
         public void Back() {
@@ -55,29 +66,39 @@ namespace MAGES.UIs
         }
 
         public void CreateRoom() {
-            Integration.CreateRoom("Fusion Session");
-            Instantiate(CreateSessionUI);
-            Destroy(this.gameObject);
+
+            var rnd = new System.Random();
+
+            string roomName = "Session-" + rnd.Next(10) + rnd.Next(10) + rnd.Next(10) + rnd.Next(10);
+
+            Integration.CreateRoom(roomName);
+            var session = Instantiate(CreateSessionUI);
+            session.GetComponent<CreateSessionTriggersFusion>().SessionName.text = roomName;
+
+            Destroy(gameObject);
         }
 
         public void JoinSession() {
-            if (SelectedSession != null)
+            if (PreviousSelected != null)
             {
-                var SessionName = SelectedSession.transform.Find("SessionName").GetComponent<TMP_Text>().text;
+                var SessionName = PreviousSelected.transform.Find("SessionName").GetComponent<TMP_Text>().text;
                 Integration.JoinRoom(SessionName);
+
+                var session = Instantiate(CreateSessionUI);
+                session.GetComponent<CreateSessionTriggersFusion>().SessionName.text = SessionName;
+
+                Destroy(gameObject);
             }
         }
 
         public void SetSelectedSession(GameObject Session)
         {
+
             if (PreviousSelected != null)
             {
-                PreviousSelected.transform.Find("Background").GetComponent<Image>().color = new Color(0,0,0,10);
+                PreviousSelected.transform.Find("Background").GetComponent<Image>().color = new Color(0,0,0,0);
             }
-            SelectedSession = Session;
             PreviousSelected = Session;
-
-            SelectedSession.transform.Find("Background").GetComponent<Image>().color = new Color(0, 0, 0, 150);
 
             JoinButton.interactable = true;
         }

@@ -13,9 +13,16 @@
     using Fusion.Sockets;
     using System;
     using System.Threading.Tasks;
+    using MAGES.UIs;
 
-    public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration, INetworkRunnerCallbacks //or NetworkBehaviour
+    public class FUSIONIntegration : NetworkBehaviour, IMAGESNetworkIntegration, INetworkRunnerCallbacks
     {
+        [SerializeField]
+        GameObject CharacterAvatar;
+
+        [Networked,Capacity(100)]
+        private NetworkDictionary<PlayerRef, NetworkObject> players { get; set; }
+
         private NetworkRunner _runner;
         private bool isConnectedToServer;
         private List<SessionInfo> allRoomsInfo;
@@ -52,17 +59,23 @@
 
         public bool CreateRoom(string roomName)
         {
-            var result = _runner.StartGame(new StartGameArgs()
+            _ = CreateRoomInner(roomName);
+
+            return true;
+        }
+
+        private async Task<StartGameResult> CreateRoomInner(string roomName)
+        {
+            var result = await _runner.StartGame(new StartGameArgs()
             {
                 SessionName = roomName,
                 PlayerCount = 20,
                 IsOpen = true,
                 IsVisible = true,
                 GameMode = GameMode.Shared
-            }
-            );
+            });
 
-            return true;
+            return result;
         }
 
         public bool DestroyComponent(GameObject gameObject, string componentType)
@@ -222,8 +235,7 @@
         public bool JoinRoom(string roomName)
         {
             var result = _runner.StartGame(new StartGameArgs()
-            {SessionName = roomName});
-            //_runner.JoinSessionLobby()
+            {GameMode = GameMode.Shared, SessionName = roomName});
 
             return true;
         }
@@ -252,7 +264,6 @@
 
         public void OnConnectedToServer(NetworkRunner runner)
         {
-            Debug.Log("Conncted to Server Successfully");
             isConnectedToServer = true;
         }
 
@@ -264,9 +275,7 @@
         }
 
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
-        {
-            Debug.Log("Request Received: " + request);
-        }
+        {}
 
         public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
         {}
@@ -277,9 +286,7 @@
         }
 
         public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
-        {
-            Debug.Log("Host Migration Started");
-        }
+        {}
 
         //no need to implement
         public void OnInput(NetworkRunner runner, NetworkInput input)
@@ -299,9 +306,21 @@
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
+            NetworkObject Avatar;
             if (runner.LocalPlayer == player)
             {
                 Debug.Log("Local Player Joined!!");
+                GameObject rig;
+                GameObject Camera;
+                if (Hub.Instance.RuntimeBundle.DeviceManager.CurrentMode == DeviceManagerModule.CameraMode.Mobile3D)
+                {
+                    rig = GameObject.Find("MobileRig");
+                    Camera = rig.transform.Find("Camera").gameObject;
+                    Avatar = runner.Spawn(CharacterAvatar, rig.transform.position,Camera.transform.rotation);
+                    Avatar.transform.Find("AvatarOffset").gameObject.SetActive(false);
+                    Avatar.transform.SetParent(Camera.transform);
+                    runner.SetPlayerObject(player, Avatar);
+                }
             }
             else
             {
@@ -312,6 +331,13 @@
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
         {
             Debug.Log("Player: " + player.PlayerId + " has left");
+
+            NetworkObject NetObject = runner.GetPlayerObject(player);
+
+            if(NetObject != null)
+            {
+                runner.Despawn(NetObject);
+            }
         }
 
         public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress)
@@ -333,8 +359,8 @@
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
         {
             allRoomsInfo = sessionList;
-            Debug.Log("Lobby created");
-            Debug.Log(allRoomsInfo);
+
+            GameObject.Find("NetworkingUIMedical Fusion(Clone)").GetComponent<NetworkingFunctionsTriggersFusion>().AddSessions();
         }
 
         public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
@@ -371,7 +397,7 @@
             }
             else
             {
-                Debug.LogError($"Network Request Ownership called for object {gameObject.name}, which does not have photonView component.");
+                Debug.LogError($"Network Request Ownership called for object {gameObject.name}, which does not have a NetworkObject component.");
             }
         }
 
@@ -402,9 +428,9 @@
 
             if (prefab.GetComponent<NetworkObject>())
             {
-                _runner.Spawn(prefab, 
+                spawnedObject =  _runner.Spawn(prefab, 
                     prefab.transform.position, 
-                    prefab.transform.rotation);
+                    prefab.transform.rotation).gameObject;
             }
             else
             {
@@ -414,10 +440,10 @@
                 NetObject.ReleaseStateAuthority(); // give authority to other players
             }
 
-            if (spawnedObject.GetComponent<Rigidbody>())
-            {
-                spawnedObject.GetOrAddComponent<SyncTransformFusion>();
-            }
+            //if (spawnedObject.GetComponent<Rigidbody>())
+            //{
+            //    spawnedObject.GetOrAddComponent<SyncTransformFusion>();
+            //}
 
             return spawnedObject;
         }

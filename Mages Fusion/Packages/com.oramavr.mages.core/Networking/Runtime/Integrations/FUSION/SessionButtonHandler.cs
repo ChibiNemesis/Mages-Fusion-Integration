@@ -1,26 +1,18 @@
 namespace MAGES.UIs
 {
-
-    using System.Collections;
-    using System.Collections.Generic;
-    using TMPro;
     using UnityEngine;
+    using UnityEngine.UI;
 
     public class SessionButtonHandler : MonoBehaviour
     {
-        [SerializeField] public  NetworkingFunctionsTriggersFusion Trigger;
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+        public  NetworkingFunctionsTriggersFusion Trigger;
 
         public void SetSession()
         {
             if(Trigger != null)
             {
-                Trigger.SetSelectedSession(this.gameObject);
+                this.gameObject.transform.Find("Background").GetComponent<Image>().color = new Color(0, 0, 0, 0.4f);
+                Trigger.SetSelectedSession(gameObject);
             }
         }
     }
