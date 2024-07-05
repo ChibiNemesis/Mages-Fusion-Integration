@@ -319,19 +319,9 @@
                     Avatar.transform.Find("AvatarOffset").gameObject.SetActive(false);
                     Avatar.gameObject.name = "Local Avatar";
                     runner.SetPlayerObject(player, Avatar);
+
                 }
             }
-            /*else
-            {
-                Debug.Log("Another player joined!!");
-                if (Hub.Instance.RuntimeBundle.DeviceManager.CurrentMode == DeviceManagerModule.CameraMode.Mobile3D)
-                {
-                    rig = GameObject.Find("MobileRig");
-                    Camera = rig.transform.Find("Camera").gameObject;
-                    Avatar = runner.Spawn(CharacterAvatar, rig.transform.position, Camera.transform.rotation);
-                    runner.SetPlayerObject(player, Avatar);
-                }
-            }*/
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
