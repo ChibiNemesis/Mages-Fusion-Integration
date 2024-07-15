@@ -20,9 +20,6 @@
         [SerializeField]
         GameObject CharacterAvatar;
 
-        [Networked,Capacity(100)]
-        private NetworkDictionary<PlayerRef, NetworkObject> players { get; set; }
-
         private NetworkRunner _runner;
         private bool isConnectedToServer;
         private List<SessionInfo> allRoomsInfo;
@@ -44,11 +41,6 @@
         public void AddQuestionSyncScript(GameObject questionPrefab)
         {
             throw new System.NotImplementedException();
-            //if (questionPrefab)
-            //{
-            //    questionPrefab.AddComponent<SyncQuestionState>();
-            //}
-            //SyncQuestionState -> INetworkRunnerCallbacks
         }
 
         public IMAGESObjectSynchronization AddSyncTransform(GameObject gameObject)
@@ -128,6 +120,7 @@
         {
             var task = EstablishConnectionToMainServerInner();
 
+            //Note: the line below makes the application crash for some reason
             //return task.Result.Ok;
             return true;
         }
@@ -241,24 +234,7 @@
 
         public GameObject LinkNetworkObject(GameObject remotePrefab, GameObject localPrefab)
         {
-            if (remotePrefab.name != localPrefab.name)
-            {
-                return null;
-            }
-
-            var NetObject = remotePrefab.GetComponent<NetworkObject>();
-            var ID = NetObject.Id;
-            var newNetObject = localPrefab.GetOrAddComponent<NetworkObject>();
-            //PhotonNetwork.LocalCleanPhotonView(remotePview);
-
-            remotePrefab.SetActive(false);
-            //PhotonNetwork.PrefabPool.Destroy(remotePrefab); -> use an INetworkObjectProvider
-            _runner.Despawn(NetObject);
-            Destroy(remotePrefab);
-            //newNetObject = ID;
-            localPrefab.GetOrAddComponent<SyncTransform>().Initialise();
-
-            return localPrefab;
+            throw new NotImplementedException();
         }
 
         public void OnConnectedToServer(NetworkRunner runner)
@@ -343,14 +319,10 @@
         {}
 
         public void OnSceneLoadDone(NetworkRunner runner)
-        {
-            Debug.Log("Scene Loading has finished");
-        }
+        {}
 
         public void OnSceneLoadStart(NetworkRunner runner)
-        {
-            Debug.Log("Scene Loading has started");
-        }
+        {}
 
         public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
         {
@@ -431,13 +403,8 @@
                 spawnedObject = Instantiate(prefab);
 
                 var NetObject = spawnedObject.AddComponent<NetworkObject>();
-                NetObject.ReleaseStateAuthority(); // give authority to other players
+                NetObject.ReleaseStateAuthority(); // give authority to other players (Not sure if this is needed)
             }
-
-            //if (spawnedObject.GetComponent<Rigidbody>())
-            //{
-            //    spawnedObject.GetOrAddComponent<SyncTransformFusion>();
-            //}
 
             return spawnedObject;
         }
